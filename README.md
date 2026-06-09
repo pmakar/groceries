@@ -1,33 +1,16 @@
-# Tesco Deal Radar v4
+# Tesco Deal Radar v5
 
-Vercel/GitHub app with:
+This version is designed so the buttons never fail silently.
 
-- Separate shopping-list search.
-- All Aldi Price Match button.
-- Smart **All Clubcard Prices** button.
-- All Everyday Low Price button.
-- Much nicer dashboard UI.
-- Search/filter/sort inside results.
-- CSV export.
+## What changed from v4
 
-## Why Clubcard is smarter now
+- Removed `cheerio` dependency.
+- Deal buttons immediately show fallback Tesco links.
+- API failures are displayed in the UI instead of looking like the button did nothing.
+- Added **Test API** button.
+- Clubcard still attempts a smart crawl across Tesco Clubcard sections and pagination.
 
-Instead of reading only one Tesco Clubcard page, the app calls `/api/deals?type=clubcard&category=...` for every known Clubcard buylist section:
-
-- Top picks
-- Fresh food
-- Frozen food
-- Beer, wine and spirits
-- Snacks and treats
-- Household and pet care
-- Cupboard fillers
-- Bakery
-- Health, beauty and baby
-- World foods
-
-Each category call detects Tesco pagination, for example “Showing 1 to 24 of 55 items”, then loads the additional pages.
-
-## Local test
+## Run locally
 
 ```bash
 npm install
@@ -40,16 +23,12 @@ Open:
 http://localhost:3000
 ```
 
-## Deploy to GitHub + Vercel
+Do **not** open `public/index.html` directly if you want the API-powered buttons to work. Direct file opening can only show fallback links, because `/api/deals` will not exist.
 
-```bash
-git init
-git add .
-git commit -m "Tesco Deal Radar v4"
-```
+## Deploy to Vercel
 
-Push to GitHub, then import the repository in Vercel.
+Push the whole folder to GitHub, then import the repo into Vercel.
 
-## Limitations
+## Important
 
-Tesco does not provide a stable public grocery deals API. This reads Tesco pages server-side and extracts visible products. Results can vary if Tesco changes markup, blocks automated requests, or shows different results by location/account.
+Tesco does not provide a stable public grocery deals API. This app reads Tesco pages server-side, then parses the visible product text. If Tesco blocks Vercel or changes markup, use the fallback links shown in the app.

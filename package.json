@@ -1,14 +1,10 @@
 {
-  "name": "tesco-deal-radar",
-  "version": "4.0.0",
+  "name": "tesco-deal-radar-v5",
+  "version": "5.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "vercel dev",
     "start": "vercel dev"
-  },
-  "dependencies": {
-    "cheerio": "^1.0.0"
   },
   "devDependencies": {
     "vercel": "^34.0.0"
