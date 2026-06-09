@@ -1,16 +1,17 @@
-# Tesco Deal Radar v5
+# Tesco Deal Radar v7 Static
 
-This version is designed so the buttons never fail silently.
+This version uses **no fetch, no scraping, no API**.
 
-## What changed from v4
+It is a polished static Vercel app that:
 
-- Removed `cheerio` dependency.
-- Deal buttons immediately show fallback Tesco links.
-- API failures are displayed in the UI instead of looking like the button did nothing.
-- Added **Test API** button.
-- Clubcard still attempts a smart crawl across Tesco Clubcard sections and pagination.
+- Builds Tesco search links from your shopping list.
+- Shows Tesco Clubcard category links.
+- Shows Tesco fallback pages/searches for Aldi Price Match.
+- Shows Tesco fallback pages/searches for Everyday Low Price.
+- Opens visible links in tabs.
+- Copies visible links.
 
-## Run locally
+## Local test
 
 ```bash
 npm install
@@ -23,12 +24,12 @@ Open:
 http://localhost:3000
 ```
 
-Do **not** open `public/index.html` directly if you want the API-powered buttons to work. Direct file opening can only show fallback links, because `/api/deals` will not exist.
+You can also open `public/index.html` directly because this version does not need an API.
 
-## Deploy to Vercel
+## Deploy
 
-Push the whole folder to GitHub, then import the repo into Vercel.
+Push this folder to GitHub and import it in Vercel.
 
-## Important
+## Why static
 
-Tesco does not provide a stable public grocery deals API. This app reads Tesco pages server-side, then parses the visible product text. If Tesco blocks Vercel or changes markup, use the fallback links shown in the app.
+Fetching Tesco into Vercel/serverless was unreliable. Tesco blocks or changes responses, so this version only sends you directly to Tesco pages.

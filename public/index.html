@@ -2,42 +2,109 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Tesco Deal Radar v5</title>
+<title>Tesco Deal Radar</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root{
-  --bg:#050913; --panel:#0e1726; --panel2:#121f35; --line:rgba(255,255,255,.13);
-  --text:#f8fbff; --muted:#9badc4; --blue:#00539f; --cyan:#12b7ff; --gold:#ffd84d;
-  --green:#34d399; --red:#fb7185; --radius:26px;
+  --bg:#050913;
+  --panel:#0e1726;
+  --panel2:#121f35;
+  --line:rgba(255,255,255,.13);
+  --text:#f8fbff;
+  --muted:#9badc4;
+  --blue:#00539f;
+  --cyan:#12b7ff;
+  --gold:#ffd84d;
+  --green:#34d399;
+  --red:#fb7185;
+  --radius:26px;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:
-radial-gradient(circle at 10% 0%,rgba(18,183,255,.35),transparent 36rem),
-radial-gradient(circle at 90% 10%,rgba(255,216,77,.22),transparent 32rem),
-linear-gradient(150deg,#050913,#071426 50%,#020617);min-height:100vh}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 12% 0%,rgba(18,183,255,.34),transparent 36rem),
+    radial-gradient(circle at 92% 10%,rgba(255,216,77,.22),transparent 32rem),
+    linear-gradient(150deg,#050913,#071426 50%,#020617);
+}
 .wrap{max-width:1280px;margin:0 auto;padding:26px}
-.hero{border:1px solid var(--line);border-radius:34px;padding:32px;background:
-linear-gradient(135deg,rgba(0,83,159,.88),rgba(8,18,33,.96) 60%,rgba(255,216,77,.20));box-shadow:0 30px 80px rgba(0,0,0,.35);overflow:hidden;position:relative}
-.hero:after{content:"";position:absolute;width:430px;height:430px;border-radius:50%;right:-160px;bottom:-230px;border:60px solid rgba(255,216,77,.12)}
+.hero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:34px;
+  padding:32px;
+  background:
+    linear-gradient(135deg,rgba(0,83,159,.9),rgba(8,18,33,.96) 60%,rgba(255,216,77,.20));
+  box-shadow:0 30px 80px rgba(0,0,0,.35);
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  width:430px;height:430px;
+  border-radius:50%;
+  right:-160px;bottom:-230px;
+  border:60px solid rgba(255,216,77,.12);
+}
 h1{font-size:clamp(38px,6vw,76px);line-height:.9;letter-spacing:-.07em;margin:0 0 14px}
 h2{margin:0 0 8px;font-size:23px;letter-spacing:-.04em}
+h3{margin:0;font-size:18px;letter-spacing:-.03em}
 p{margin:0;color:var(--muted);line-height:1.5}
-.hero p{color:#deecff;max-width:760px;font-size:17px}
+.hero p{color:#deecff;max-width:820px;font-size:17px}
 .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
 @media(min-width:960px){.grid{grid-template-columns:.9fr 1.1fr}}
-.card{background:linear-gradient(180deg,rgba(18,31,53,.94),rgba(11,20,35,.96));border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 20px 48px rgba(0,0,0,.24)}
-textarea,input,select{width:100%;border:1px solid rgba(255,255,255,.14);background:rgba(2,6,23,.72);color:var(--text);border-radius:16px;padding:13px 14px;outline:none;font:15px/1.35 inherit}
+.card{
+  background:linear-gradient(180deg,rgba(18,31,53,.94),rgba(11,20,35,.96));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:0 20px 48px rgba(0,0,0,.24);
+}
+textarea,input,select{
+  width:100%;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(2,6,23,.72);
+  color:var(--text);
+  border-radius:16px;
+  padding:13px 14px;
+  outline:none;
+  font:15px/1.35 inherit;
+}
 textarea{min-height:170px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-button,.btn{border:0;border-radius:999px;padding:12px 16px;color:white;background:linear-gradient(135deg,var(--blue),var(--cyan));font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 14px 34px rgba(0,83,159,.3)}
+textarea:focus,input:focus,select:focus{border-color:rgba(18,183,255,.8);box-shadow:0 0 0 4px rgba(18,183,255,.14)}
+button,.btn{
+  border:0;
+  border-radius:999px;
+  padding:12px 16px;
+  color:white;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  font-weight:900;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-shadow:0 14px 34px rgba(0,83,159,.3);
+}
 button:hover,.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
-button:disabled{opacity:.55;cursor:not-allowed;transform:none}
 .secondary{background:rgba(255,255,255,.08);border:1px solid var(--line);box-shadow:none}
 .gold{background:linear-gradient(135deg,#f6b700,#ffe47a);color:#172033}
 .green{background:linear-gradient(135deg,#10b981,#6ee7b7);color:#062116}
 .row{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin-top:14px}
 .deal-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
 @media(min-width:780px){.deal-grid{grid-template-columns:repeat(3,1fr)}}
-.deal{min-height:132px;border-radius:24px;padding:18px;text-align:left;display:block;box-shadow:none}
+.deal{
+  min-height:136px;
+  border-radius:24px;
+  padding:18px;
+  text-align:left;
+  display:block;
+  box-shadow:none;
+}
 .deal strong{display:block;font-size:21px;letter-spacing:-.04em}
 .deal span{display:block;margin-top:8px;font-size:13px;line-height:1.4;color:rgba(255,255,255,.83)}
 .gold span,.green span{color:rgba(0,0,0,.72)}
@@ -45,58 +112,120 @@ button:disabled{opacity:.55;cursor:not-allowed;transform:none}
 @media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
 .stat{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:22px;padding:15px}
 .stat b{display:block;font-size:29px;letter-spacing:-.05em}.stat span{font-size:13px;color:var(--muted)}
-.toolbar{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
-@media(min-width:900px){.toolbar{grid-template-columns:1.4fr .9fr .8fr .7fr}}
-.progress{height:11px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid rgba(255,255,255,.08);margin-top:14px}.bar{height:100%;width:0%;background:linear-gradient(90deg,var(--cyan),var(--gold));transition:.25s}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:850;color:#dbe8f8}.chip.ok{background:rgba(52,211,153,.13);border-color:rgba(52,211,153,.4);color:#c6ffdf}.chip.bad{background:rgba(251,113,133,.13);border-color:rgba(251,113,133,.4);color:#ffd2da}
-.notice{margin-top:12px;border:1px solid rgba(255,216,77,.24);background:rgba(255,216,77,.1);color:#ffeebe;border-radius:18px;padding:12px 14px;font-size:13px;line-height:1.45}
+.notice{
+  margin-top:12px;
+  border:1px solid rgba(255,216,77,.24);
+  background:rgba(255,216,77,.1);
+  color:#ffeebe;
+  border-radius:18px;
+  padding:12px 14px;
+  font-size:13px;
+  line-height:1.45;
+}
 .results-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.products{display:grid;grid-template-columns:1fr;gap:13px;margin-top:14px}@media(min-width:760px){.products{grid-template-columns:repeat(2,1fr)}}@media(min-width:1160px){.products{grid-template-columns:repeat(3,1fr)}}
-.product{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:24px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));min-height:218px}
-.product:before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,var(--cyan),var(--gold))}
-.cat{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.08em}.title{display:block;margin:9px 0 11px;color:var(--text);font-size:16px;font-weight:900;line-height:1.25;text-decoration:none}
-.badge{display:inline-block;border:1px solid rgba(255,216,77,.35);background:rgba(255,216,77,.14);color:#ffe895;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:950}
-.price{font-size:34px;font-weight:1000;letter-spacing:-.07em;margin-top:10px}.old{text-decoration:line-through;color:#9fb0c7;font-weight:800}.save{display:inline-block;margin-left:8px;background:rgba(52,211,153,.14);color:#c6ffdf;border-radius:999px;padding:5px 8px;font-size:12px;font-weight:950}
-.offer{margin-top:10px;color:#dbe5f3;font-size:13px;line-height:1.35}.unit{margin-top:8px;color:var(--muted);font-size:12px}.open{position:absolute;right:14px;bottom:14px;color:#dbe8f8;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:rgba(255,255,255,.08);font-size:12px;font-weight:900}
-.empty{margin-top:14px;border:1px dashed rgba(255,255,255,.22);border-radius:24px;padding:28px;text-align:center;color:var(--muted)}
-.table{overflow:auto;margin-top:14px;border:1px solid var(--line);border-radius:20px}table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.035)}th,td{border-bottom:1px solid rgba(255,255,255,.08);padding:12px;text-align:left;vertical-align:top}th{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:#bed0e6;background:rgba(255,255,255,.055)}td{font-size:14px;color:#edf5ff}
-.fallbacks{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}@media(min-width:700px){.fallbacks{grid-template-columns:repeat(3,1fr)}}.fallback{border:1px solid var(--line);border-radius:18px;padding:12px;background:rgba(255,255,255,.06);text-decoration:none}.fallback b{display:block}.fallback small{color:var(--muted)}
+.toolbar{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+@media(min-width:860px){.toolbar{grid-template-columns:1.4fr .9fr .8fr}}
+.links{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:13px;
+  margin-top:14px;
+}
+@media(min-width:760px){.links{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1160px){.links{grid-template-columns:repeat(3,1fr)}}
+.link-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));
+  min-height:172px;
+}
+.link-card:before{
+  content:"";
+  position:absolute;
+  left:0;top:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--cyan),var(--gold));
+}
+.tag{
+  display:inline-block;
+  font-size:12px;
+  color:#ffe895;
+  border:1px solid rgba(255,216,77,.35);
+  background:rgba(255,216,77,.14);
+  border-radius:999px;
+  padding:6px 9px;
+  font-weight:950;
+  margin-bottom:12px;
+}
+.link-card h3{margin-bottom:8px}
+.link-card p{font-size:13px;margin-bottom:16px}
+.open{
+  position:absolute;
+  left:18px;
+  bottom:16px;
+}
+.empty{
+  margin-top:14px;
+  border:1px dashed rgba(255,255,255,.22);
+  border-radius:24px;
+  padding:28px;
+  text-align:center;
+  color:var(--muted);
+}
+.table{overflow:auto;margin-top:14px;border:1px solid var(--line);border-radius:20px}
+table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.035)}
+th,td{border-bottom:1px solid rgba(255,255,255,.08);padding:12px;text-align:left;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:#bed0e6;background:rgba(255,255,255,.055)}
+td{font-size:14px;color:#edf5ff}
+td a{color:#dff2ff;font-weight:900}
+.small{font-size:13px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <section class="hero">
     <h1>Tesco Deal Radar</h1>
-    <p>Reliable v5: every button gives an immediate visible result. If the serverless Tesco parser fails, the app shows fallback Tesco pages instead of doing nothing.</p>
+    <p>Static Vercel version. No scraping, no fetch, no API failures. Deal buttons open and organise Tesco’s own pages, while the shopping-list tool builds Tesco search links.</p>
     <div class="stats">
-      <div class="stat"><b id="statProducts">0</b><span>products loaded</span></div>
-      <div class="stat"><b id="statCategories">0</b><span>categories checked</span></div>
-      <div class="stat"><b id="statSavings">£0</b><span>visible savings</span></div>
-      <div class="stat"><b id="statBest">—</b><span>best saving</span></div>
+      <div class="stat"><b id="statLinks">0</b><span>links shown</span></div>
+      <div class="stat"><b id="statSection">—</b><span>active section</span></div>
+      <div class="stat"><b>0</b><span>API calls</span></div>
+      <div class="stat"><b>100%</b><span>button reliability</span></div>
     </div>
   </section>
 
   <div class="grid">
     <section class="card">
       <h2>Shopping-list search</h2>
-      <p>Separate from deal buttons. Paste list, then build Tesco search links.</p>
+      <p>Paste your list. This builds clean Tesco search links. It does not scrape Tesco.</p>
       <textarea id="shoppingList" placeholder="milk&#10;eggs&#10;bread&#10;chicken thighs&#10;coffee"></textarea>
       <div class="row">
         <button id="buildLinks">Build Tesco links</button>
-        <button id="openList" class="secondary">Open all</button>
-        <button id="testApi" class="secondary">Test API</button>
+        <button id="openList" class="secondary">Open all item searches</button>
+        <button id="copyLinks" class="secondary">Copy links</button>
       </div>
     </section>
 
     <section class="card">
       <h2>Deal buttons</h2>
-      <p>Unrelated to shopping list. Clubcard scans known Tesco Clubcard sections and pages.</p>
+      <p>Separate from shopping list. These show Tesco’s own deal sections and direct links.</p>
       <div class="deal-grid">
-        <button class="deal gold" id="loadClubcard"><strong>All Clubcard Prices</strong><span>Smart crawl across all Clubcard buylist sections. Shows category-by-category status.</span></button>
-        <button class="deal" id="loadAldi"><strong>All Aldi Price Match</strong><span>Loads Tesco pages/searches where Aldi badge is exposed.</span></button>
-        <button class="deal green" id="loadEdlp"><strong>All Everyday Low Price</strong><span>Loads Tesco pages/searches where EDLP badge is exposed.</span></button>
+        <button class="deal gold" id="clubcardBtn">
+          <strong>All Clubcard Prices</strong>
+          <span>Shows all known Tesco Clubcard category pages: Top picks, Fresh, Frozen, Bakery, Cupboard, Household, and more.</span>
+        </button>
+        <button class="deal" id="aldiBtn">
+          <strong>All Aldi Price Match</strong>
+          <span>Shows Tesco fallback pages/searches for Aldi Price Match deals.</span>
+        </button>
+        <button class="deal green" id="edlpBtn">
+          <strong>All Everyday Low Price</strong>
+          <span>Shows Tesco fallback pages/searches for Everyday Low Price deals.</span>
+        </button>
       </div>
-      <div class="notice">This version has no scraping library dependency. The parser is serverless-only, with direct fallback links always visible.</div>
+      <div class="notice">This version deliberately does not fetch Tesco into your site. It opens Tesco pages directly, which is the reliable part.</div>
     </section>
   </div>
 
@@ -104,218 +233,212 @@ button:disabled{opacity:.55;cursor:not-allowed;transform:none}
     <div class="results-head">
       <div>
         <h2 id="resultTitle">Results</h2>
-        <p id="status">No search yet.</p>
+        <p id="status">Choose a deal button or build shopping-list links.</p>
       </div>
       <div class="row" style="margin-top:0">
-        <button id="exportCsv" class="secondary">Export CSV</button>
+        <button id="openVisible" class="secondary">Open visible</button>
         <button id="clearResults" class="secondary">Clear</button>
       </div>
     </div>
 
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    <div id="chips" class="chips"></div>
-
     <div class="toolbar">
-      <input id="filterText" placeholder="Filter results: coffee, chicken, Persil">
-      <select id="categoryFilter"><option value="">All categories</option></select>
-      <select id="sortBy"><option value="saving-desc">Biggest saving</option><option value="price-asc">Cheapest</option><option value="title-asc">A–Z</option></select>
-      <select id="viewMode"><option value="cards">Cards</option><option value="table">Table</option></select>
+      <input id="filterText" placeholder="Filter links: fresh, frozen, bakery, coffee">
+      <select id="viewMode">
+        <option value="cards">Cards</option>
+        <option value="table">Table</option>
+      </select>
+      <select id="openMode">
+        <option value="slow">Open tabs slowly</option>
+        <option value="normal">Open tabs immediately</option>
+      </select>
     </div>
 
-    <div id="fallbacks" class="fallbacks"></div>
-    <div id="results" class="empty">Use one of the buttons above.</div>
+    <div id="results" class="empty">No links yet.</div>
   </section>
 </div>
 
 <script>
-const TESCO_FALLBACKS = {
-  clubcard: [
-    ["Top picks", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/top-picks"],
-    ["Fresh food", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/fresh"],
-    ["Frozen food", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/frozen"],
-    ["Food cupboard", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/food-cupboard"],
-    ["Bakery", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/bakery"],
-    ["Household", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/household"],
-    ["Health, beauty and baby", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/health-beauty-and-baby"],
-    ["Snacks and treats", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/snacks-and-treats"],
-    ["Beer, wine and spirits", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/beer-wine-spirits"]
-  ],
-  aldi: [["Tesco Aldi Price Match search", "https://www.tesco.com/groceries/en-GB/search?query=Aldi%20Price%20Match"], ["Tesco promotions", "https://www.tesco.com/groceries/en-GB/promotions/all"]],
-  edlp: [["Tesco Everyday Low Price search", "https://www.tesco.com/groceries/en-GB/search?query=Everyday%20Low%20Price"], ["Tesco promotions", "https://www.tesco.com/groceries/en-GB/promotions/all"]]
+const DEALS = {
+  clubcard: {
+    title: "All Clubcard Prices",
+    tag: "Clubcard",
+    links: [
+      ["Top picks", "Main Clubcard selection and headline offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/top-picks"],
+      ["Fresh food", "Fruit, veg, meat, dairy and chilled Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/fresh"],
+      ["Frozen food", "Frozen meals, veg, desserts and freezer Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/frozen"],
+      ["Beer, wine and spirits", "Clubcard offers on alcohol categories.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/beer-wine-spirits"],
+      ["Snacks and treats", "Crisps, chocolate, sweets and snack offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/snacks-and-treats"],
+      ["Household and pet care", "Cleaning, laundry, toilet roll and pet care offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/household"],
+      ["Cupboard fillers", "Pasta, rice, tins, sauces and pantry Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/food-cupboard"],
+      ["Bakery", "Bread, wraps, cakes and bakery Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/bakery"],
+      ["Health, beauty and baby", "Toiletries, baby, pharmacy-style and beauty offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/health-beauty-and-baby"],
+      ["Clubcard zone", "Tesco’s general Clubcard Prices zone.", "https://www.tesco.com/shop/en-GB/zone/clubcard-prices"]
+    ]
+  },
+  aldi: {
+    title: "All Aldi Price Match",
+    tag: "Aldi Match",
+    links: [
+      ["Aldi Price Match search", "Tesco search for Aldi Price Match products.", "https://www.tesco.com/groceries/en-GB/search?query=Aldi%20Price%20Match"],
+      ["Tesco promotions", "Tesco’s general promotions page.", "https://www.tesco.com/groceries/en-GB/promotions/all"],
+      ["Fresh food", "Likely place for Aldi matched fresh items.", "https://www.tesco.com/groceries/en-GB/shop/fresh-food/all"],
+      ["Food cupboard", "Likely place for Aldi matched cupboard staples.", "https://www.tesco.com/groceries/en-GB/shop/food-cupboard/all"],
+      ["Bakery", "Likely place for Aldi matched bread and bakery staples.", "https://www.tesco.com/groceries/en-GB/shop/bakery/all"],
+      ["Frozen food", "Likely place for Aldi matched frozen items.", "https://www.tesco.com/groceries/en-GB/shop/frozen-food/all"]
+    ]
+  },
+  edlp: {
+    title: "All Everyday Low Price",
+    tag: "EDLP",
+    links: [
+      ["Everyday Low Price search", "Tesco search for Everyday Low Price products.", "https://www.tesco.com/groceries/en-GB/search?query=Everyday%20Low%20Price"],
+      ["Tesco promotions", "Tesco’s general promotions page.", "https://www.tesco.com/groceries/en-GB/promotions/all"],
+      ["Fresh food", "Everyday value-style fresh categories.", "https://www.tesco.com/groceries/en-GB/shop/fresh-food/all"],
+      ["Food cupboard", "Cupboard staples and regular low-price products.", "https://www.tesco.com/groceries/en-GB/shop/food-cupboard/all"],
+      ["Household", "Regular low-price cleaning and household products.", "https://www.tesco.com/groceries/en-GB/shop/household/all"],
+      ["Frozen food", "Regular low-price frozen products.", "https://www.tesco.com/groceries/en-GB/shop/frozen-food/all"]
+    ]
+  }
 };
+
+let currentLinks = [];
+let currentTitle = "Results";
+let currentTag = "Link";
 
 const els = {
   list: document.getElementById("shoppingList"),
-  status: document.getElementById("status"),
-  title: document.getElementById("resultTitle"),
   results: document.getElementById("results"),
-  fallbacks: document.getElementById("fallbacks"),
-  chips: document.getElementById("chips"),
-  bar: document.getElementById("bar"),
+  title: document.getElementById("resultTitle"),
+  status: document.getElementById("status"),
   filter: document.getElementById("filterText"),
-  cat: document.getElementById("categoryFilter"),
-  sort: document.getElementById("sortBy"),
   view: document.getElementById("viewMode"),
-  statProducts: document.getElementById("statProducts"),
-  statCategories: document.getElementById("statCategories"),
-  statSavings: document.getElementById("statSavings"),
-  statBest: document.getElementById("statBest")
+  statLinks: document.getElementById("statLinks"),
+  statSection: document.getElementById("statSection")
 };
 
-let products = [];
-let categoriesChecked = new Set();
-let mode = "Results";
+function esc(s){
+  return String(s ?? "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
 
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));}
-function money(n){return typeof n==="number"&&Number.isFinite(n)?`£${n.toFixed(2)}`:"";}
-function tescoUrl(q){return "https://www.tesco.com/groceries/en-GB/search?query="+encodeURIComponent(q);}
-function cleanItem(input){let s=String(input||"").trim();s=s.replace(/^[-*•\s]+/,"").replace(/^\d+[\).]\s+/,"").replace(/^\[[ xX]\]\s*/,"").replace(/^\d+\s*x\s+/i,"").replace(/^\d+x\s*/i,"").replace(/^\d+(\.\d+)?\s*(kg|g|ml|l|litre|litres|pack|packs|pcs|pieces|tin|tins|can|cans|bottle|bottles)\s+/i,"").replace(/\s+\d+(\.\d+)?\s*(kg|g|ml|l|litre|litres|pack|packs|pcs|pieces|tin|tins|can|cans|bottle|bottles)$/i,"");return s.replace(/\s+/g," ").trim();}
-function listItems(){const seen=new Set();return els.list.value.split(/[\n,]+/).map(cleanItem).filter(Boolean).filter(x=>{const k=x.toLowerCase();if(seen.has(k))return false;seen.add(k);return true;});}
-function setProgress(done,total){els.bar.style.width=total?`${Math.round(done/total*100)}%`:"0%";}
-function chip(text, cls=""){const s=document.createElement("span");s.className="chip "+cls;s.textContent=text;els.chips.appendChild(s);return s;}
-function showFallbacks(type){
-  const rows = TESCO_FALLBACKS[type] || [];
-  els.fallbacks.innerHTML = rows.map(([label,url]) => `<a class="fallback" href="${url}" target="_blank" rel="noopener"><b>${esc(label)}</b><small>Open Tesco fallback</small></a>`).join("");
+function cleanItem(input) {
+  let s = String(input || "").trim();
+  s = s.replace(/^[-*•\s]+/, "");
+  s = s.replace(/^\d+[\).]\s+/, "");
+  s = s.replace(/^\[[ xX]\]\s*/, "");
+  s = s.replace(/^\d+\s*x\s+/i, "");
+  s = s.replace(/^\d+x\s*/i, "");
+  s = s.replace(/^\d+(\.\d+)?\s*(kg|g|ml|l|litre|litres|pack|packs|pcs|pieces|tin|tins|can|cans|bottle|bottles)\s+/i, "");
+  s = s.replace(/\s+\d+(\.\d+)?\s*(kg|g|ml|l|litre|litres|pack|packs|pcs|pieces|tin|tins|can|cans|bottle|bottles)$/i, "");
+  s = s.replace(/\s+[-–—]\s+.*$/, "");
+  s = s.replace(/\s+\(.*?\)\s*$/, "");
+  return s.replace(/\s+/g, " ").trim();
 }
-function reset(title, fallbackType){
-  products=[];categoriesChecked=new Set();mode=title;els.title.textContent=title;els.status.textContent="Starting…";els.results.className="empty";els.results.innerHTML="Loading…";els.chips.innerHTML="";setProgress(0,1);showFallbacks(fallbackType);render();
+
+function tescoUrl(q){
+  return "https://www.tesco.com/groceries/en-GB/search?query=" + encodeURIComponent(q);
 }
-function addProducts(rows){
-  const seen = new Set(products.map(p => `${String(p.title).toLowerCase()}|${p.category}`));
-  for(const p of rows||[]){const key=`${String(p.title).toLowerCase()}|${p.category}`;if(!seen.has(key)){seen.add(key);products.push(p);}}
+
+function listItems(){
+  const seen = new Set();
+  return els.list.value
+    .split(/[\n,]+/)
+    .map(cleanItem)
+    .filter(Boolean)
+    .filter(x => {
+      const k = x.toLowerCase();
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+}
+
+function visibleLinks(){
+  const q = els.filter.value.trim().toLowerCase();
+  if (!q) return currentLinks;
+  return currentLinks.filter(([name, desc, url]) => `${name} ${desc} ${url}`.toLowerCase().includes(q));
+}
+
+function setLinks(title, tag, links){
+  currentTitle = title;
+  currentTag = tag;
+  currentLinks = links;
+  els.title.textContent = title;
+  els.status.textContent = `${links.length} Tesco link(s). No API/fetch used.`;
   render();
 }
-function filtered(){
-  let rows=[...products];
-  const q=els.filter.value.trim().toLowerCase();
-  const c=els.cat.value;
-  if(q) rows=rows.filter(p=>`${p.title} ${p.offerText} ${p.category}`.toLowerCase().includes(q));
-  if(c) rows=rows.filter(p=>p.category===c);
-  rows.sort((a,b)=>{
-    if(els.sort.value==="price-asc") return (a.dealPrice??999999)-(b.dealPrice??999999);
-    if(els.sort.value==="title-asc") return String(a.title).localeCompare(String(b.title));
-    return (b.saving||0)-(a.saving||0)||String(a.title).localeCompare(String(b.title));
-  });
-  return rows;
-}
-function updateStats(){
-  const rows=filtered();
-  const saving=rows.reduce((a,p)=>a+(Number(p.saving)||0),0);
-  const best=rows.reduce((a,p)=>Math.max(a,Number(p.saving)||0),0);
-  els.statProducts.textContent=String(products.length);
-  els.statCategories.textContent=String(categoriesChecked.size);
-  els.statSavings.textContent=money(saving)||"£0";
-  els.statBest.textContent=best?money(best):"—";
-}
-function updateCats(){
-  const current=els.cat.value;
-  const cats=[...new Set(products.map(p=>p.category).filter(Boolean))].sort();
-  els.cat.innerHTML=`<option value="">All categories</option>`+cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
-  if(cats.includes(current)) els.cat.value=current;
-}
+
 function render(){
-  updateCats();updateStats();
-  const rows=filtered();
-  if(!rows.length){els.results.className="empty";els.results.innerHTML=products.length?"No products match filter.":"No parsed products yet. Use fallback links above if needed.";return;}
-  if(els.view.value==="table"){
-    els.results.className="table";
-    els.results.innerHTML=`<table><thead><tr><th>Product</th><th>Category</th><th>Deal</th><th>Regular</th><th>Saving</th><th>Open</th></tr></thead><tbody>${rows.map(p=>`<tr><td>${esc(p.title)}<br><small>${esc(p.offerText||"")}</small></td><td>${esc(p.category||"")}</td><td><b>${esc(p.priceText||"")}</b></td><td>${esc(p.regularPriceText||"")}</td><td>${esc(p.savingText||"")}${p.savingPct?` (${p.savingPct}%)`:""}</td><td><a target="_blank" rel="noopener" href="${esc(p.url)}">Open</a></td></tr>`).join("")}</tbody></table>`;
+  const links = visibleLinks();
+  els.statLinks.textContent = String(links.length);
+  els.statSection.textContent = currentTitle === "Results" ? "—" : currentTitle.replace(/^All\s+/,"");
+
+  if (!links.length) {
+    els.results.className = "empty";
+    els.results.innerHTML = currentLinks.length ? "No links match your filter." : "No links yet.";
     return;
   }
-  els.results.className="products";
-  els.results.innerHTML=rows.map(p=>`<article class="product"><div class="cat">${esc(p.category||"Tesco")}</div><a class="title" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a><span class="badge">${esc(p.badge||"Deal")}</span><div class="price">${esc(p.priceText||"—")} ${p.regularPriceText?`<span class="old">${esc(p.regularPriceText)}</span>`:""} ${p.savingText?`<span class="save">Save ${esc(p.savingText)}${p.savingPct?` · ${p.savingPct}%`:""}</span>`:""}</div><div class="offer">${esc(p.offerText||"")}</div><div class="unit">${esc(p.unitPrice||"")}</div><a class="open" href="${esc(p.url)}" target="_blank" rel="noopener">Open Tesco</a></article>`).join("");
-}
-async function loadClubcard(){
-  reset("All Clubcard Prices", "clubcard");
-  let categories;
-  try{
-    const r=await fetch("/api/deals?type=categories");
-    const data=await r.json();
-    if(!r.ok) throw new Error(data.error||"Could not load categories");
-    categories=data.categories||[];
-  }catch(e){
-    els.status.textContent="API failed before category load. Use fallback Tesco links above.";
-    chip("API failed: "+e.message,"bad");
+
+  if (els.view.value === "table") {
+    els.results.className = "table";
+    els.results.innerHTML = `<table>
+      <thead><tr><th>Name</th><th>Notes</th><th>Open</th></tr></thead>
+      <tbody>${links.map(([name, desc, url]) => `
+        <tr>
+          <td><b>${esc(name)}</b></td>
+          <td>${esc(desc)}</td>
+          <td><a href="${esc(url)}" target="_blank" rel="noopener">Open Tesco</a></td>
+        </tr>`).join("")}</tbody>
+    </table>`;
     return;
   }
-  els.status.textContent=`Clubcard crawl queued: ${categories.length} categories.`;
-  let done=0;
-  for(const c of categories){
-    const cchip=chip(`${c.label}: loading`);
-    try{
-      const r=await fetch(`/api/deals?type=clubcard&category=${encodeURIComponent(c.id)}`);
-      const data=await r.json();
-      if(!r.ok) throw new Error(data.error||"category failed");
-      categoriesChecked.add(data.categoryLabel||c.label);
-      addProducts(data.products||[]);
-      cchip.textContent=`${c.label}: ${(data.products||[]).length}`;
-      cchip.classList.add("ok");
-    }catch(e){
-      cchip.textContent=`${c.label}: failed`;
-      cchip.title=e.message;
-      cchip.classList.add("bad");
-    }
-    done++;setProgress(done,categories.length);
-    els.status.textContent=`Loaded ${products.length} parsed Clubcard products from ${done}/${categories.length} categories.`;
-  }
-  els.status.textContent=`Done. Parsed ${products.length} Clubcard products. Fallback links remain above for Tesco pages.`;
+
+  els.results.className = "links";
+  els.results.innerHTML = links.map(([name, desc, url]) => `
+    <article class="link-card">
+      <span class="tag">${esc(currentTag)}</span>
+      <h3>${esc(name)}</h3>
+      <p>${esc(desc)}</p>
+      <a class="btn secondary open" href="${esc(url)}" target="_blank" rel="noopener">Open Tesco</a>
+    </article>
+  `).join("");
 }
-async function loadGeneric(type,title){
-  reset(title,type);
-  const c=chip(`${title}: loading`);
-  try{
-    const r=await fetch(`/api/deals?type=${encodeURIComponent(type)}`);
-    const data=await r.json();
-    if(!r.ok) throw new Error(data.error||"deal load failed");
-    categoriesChecked.add(data.categoryLabel||title);
-    addProducts(data.products||[]);
-    c.textContent=`${title}: ${(data.products||[]).length}`;
-    c.classList.add("ok");
-    setProgress(1,1);
-    els.status.textContent=`Done. Parsed ${products.length} products.`;
-  }catch(e){
-    c.textContent=`${title}: API failed`;
-    c.classList.add("bad");
-    els.status.textContent=`API failed: ${e.message}. Use fallback Tesco links above.`;
-  }
+
+function openVisible(){
+  const links = visibleLinks();
+  const slow = document.getElementById("openMode").value === "slow";
+  links.forEach(([, , url], i) => {
+    setTimeout(() => window.open(url, "_blank", "noopener"), slow ? i * 350 : 0);
+  });
 }
-function buildLinks(){
-  const rows=listItems();
-  products=[];categoriesChecked=new Set();els.title.textContent="Tesco search links";els.status.textContent=`${rows.length} links built.`;els.chips.innerHTML="";els.fallbacks.innerHTML="";setProgress(rows.length?1:0,1);updateStats();
-  if(!rows.length){els.results.className="empty";els.results.innerHTML="No valid items.";return;}
-  els.results.className="table";
-  els.results.innerHTML=`<table><thead><tr><th>Item</th><th>Tesco search</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x)}</td><td><a href="${tescoUrl(x)}" target="_blank" rel="noopener">Open Tesco search</a></td></tr>`).join("")}</tbody></table>`;
+
+function buildShoppingLinks(){
+  const items = listItems();
+  const links = items.map(item => [item, "Tesco search for this shopping-list item.", tescoUrl(item)]);
+  setLinks("Shopping-list Tesco links", "Shopping list", links);
 }
-async function testApi(){
-  reset("API test", null);
-  try{
-    const r=await fetch("/api/deals?type=ping");
-    const data=await r.json();
-    if(!r.ok) throw new Error(data.error||"ping failed");
-    els.status.textContent="API works: "+data.time;
-    els.results.className="empty";els.results.innerHTML="API endpoint responded correctly.";
-    setProgress(1,1);chip("API ok","ok");
-  }catch(e){
-    els.status.textContent="API test failed: "+e.message;
-    els.results.className="empty";els.results.innerHTML="If you opened index.html directly instead of running Vercel/local server, API buttons cannot work.";
-    chip("API failed","bad");
-  }
+
+async function copyLinks(){
+  const text = visibleLinks().map(([name, , url]) => `${name}: ${url}`).join("\n");
+  if (!text) return;
+  await navigator.clipboard.writeText(text);
+  els.status.textContent = "Visible links copied.";
 }
-function exportCsv(){
-  const rows=filtered();if(!rows.length)return;
-  const headers=["title","category","deal_price","regular_price","saving","saving_pct","offer_text","url"];
-  const csv=[headers.join(","),...rows.map(p=>headers.map(h=>{const m={title:p.title,category:p.category,deal_price:p.priceText,regular_price:p.regularPriceText,saving:p.savingText,saving_pct:p.savingPct,offer_text:p.offerText,url:p.url};return `"${String(m[h]??"").replace(/"/g,'""')}"`;}).join(","))].join("\n");
-  const blob=new Blob([csv],{type:"text/csv"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=mode.toLowerCase().replaceAll(" ","-")+".csv";a.click();URL.revokeObjectURL(url);
-}
-document.getElementById("loadClubcard").addEventListener("click", loadClubcard);
-document.getElementById("loadAldi").addEventListener("click", () => loadGeneric("aldi","All Aldi Price Match"));
-document.getElementById("loadEdlp").addEventListener("click", () => loadGeneric("edlp","All Everyday Low Price"));
-document.getElementById("buildLinks").addEventListener("click", buildLinks);
-document.getElementById("openList").addEventListener("click", () => listItems().forEach((x,i)=>setTimeout(()=>window.open(tescoUrl(x),"_blank","noopener"),i*300)));
-document.getElementById("testApi").addEventListener("click", testApi);
-document.getElementById("exportCsv").addEventListener("click", exportCsv);
-document.getElementById("clearResults").addEventListener("click", () => {reset("Results", null);els.status.textContent="No search yet.";els.bar.style.width="0%";});
-["filterText","categoryFilter","sortBy","viewMode"].forEach(id=>document.getElementById(id).addEventListener("input", render));
+
+document.getElementById("clubcardBtn").onclick = () => setLinks(DEALS.clubcard.title, DEALS.clubcard.tag, DEALS.clubcard.links);
+document.getElementById("aldiBtn").onclick = () => setLinks(DEALS.aldi.title, DEALS.aldi.tag, DEALS.aldi.links);
+document.getElementById("edlpBtn").onclick = () => setLinks(DEALS.edlp.title, DEALS.edlp.tag, DEALS.edlp.links);
+document.getElementById("buildLinks").onclick = buildShoppingLinks;
+document.getElementById("openList").onclick = () => {
+  const links = listItems().map(item => tescoUrl(item));
+  links.forEach((url, i) => setTimeout(() => window.open(url, "_blank", "noopener"), i * 350));
+};
+document.getElementById("copyLinks").onclick = copyLinks;
+document.getElementById("openVisible").onclick = openVisible;
+document.getElementById("clearResults").onclick = () => setLinks("Results", "Link", []);
+els.filter.addEventListener("input", render);
+els.view.addEventListener("input", render);
 </script>
 </body>
 </html>
