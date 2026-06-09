@@ -6,25 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; margin:0; padding:24px; background:#f5f7fb; color:#101828; }
-    .wrap { max-width:1200px; margin:0 auto; }
+    .wrap { max-width:1100px; margin:0 auto; }
     .card { background:white; border:1px solid #e4e7ec; border-radius:16px; padding:18px; margin-bottom:16px; box-shadow:0 8px 24px rgba(16,24,40,.06); }
     textarea { width:100%; box-sizing:border-box; min-height:180px; border:1px solid #d0d5dd; border-radius:12px; padding:14px; font:16px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    button { border:0; border-radius:999px; padding:11px 16px; font-weight:800; cursor:pointer; background:#00539f; color:white; }
-    button.secondary { background:#eef4ff; color:#004078; }
-    button.deal { background:#fff3c4; color:#7a4b00; }
+    button, a.button { display:inline-block; border:0; border-radius:999px; padding:11px 16px; font-weight:800; cursor:pointer; background:#00539f; color:white; text-decoration:none; font-size:14px; }
+    .secondary { background:#eef4ff !important; color:#004078 !important; }
+    .deal { background:#fff3c4 !important; color:#7a4b00 !important; }
     .row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:12px; }
     table { width:100%; border-collapse:collapse; margin-top:10px; }
     th, td { padding:10px 12px; border-bottom:1px solid #eaecf0; text-align:left; vertical-align:top; }
     th { background:#f9fafb; color:#475467; font-size:13px; }
     a { color:#00539f; font-weight:750; text-decoration:none; }
     .muted { color:#667085; }
-    .badge { display:inline-block; padding:3px 8px; border-radius:999px; font-size:12px; font-weight:800; margin:0 4px 4px 0; background:#fff3c4; color:#7a4b00; }
-    .price { font-weight:900; white-space:nowrap; }
     .small { font-size:13px; }
     .warn { background:#fffaeb; color:#b54708; border-radius:12px; padding:10px 12px; margin-top:12px; }
     .split { display:grid; grid-template-columns:1fr; gap:16px; }
     @media (min-width:900px){ .split{grid-template-columns:1fr 1fr;} }
-    @media (max-width:760px){ body{padding:12px;} th:nth-child(4),td:nth-child(4){display:none;} }
   </style>
 </head>
 <body>
@@ -33,105 +30,84 @@
 
   <div class="split">
     <div class="card">
-      <h2>1. Shopping-list search</h2>
-      <p class="muted">This only searches your pasted list.</p>
+      <h2>Shopping-list search</h2>
+      <p class="muted">Paste your list. This opens Tesco searches for your items.</p>
       <textarea id="list" placeholder="milk&#10;eggs&#10;bread&#10;chicken thighs&#10;coffee"></textarea>
       <div class="row">
-        <button id="findBtn">Find cheapest listed items</button>
-        <button id="openAllBtn" class="secondary">Open Tesco searches</button>
+        <button id="buildLinks">Build Tesco links</button>
+        <button id="openAll" class="secondary">Open all item searches</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>2. Browse ALL Tesco deal sections</h2>
-      <p class="muted">These buttons are unrelated to your shopping list.</p>
+      <h2>All Tesco deal pages</h2>
+      <p class="muted">These are unrelated to your shopping list. They open Tesco’s own pages/searches directly, so the buttons work even if scraping fails.</p>
       <div class="row">
-        <button class="deal" data-deal="aldi">All Aldi Price Match</button>
-        <button class="deal" data-deal="clubcard">All Clubcard Prices</button>
-        <button class="deal" data-deal="edlp">All Everyday Low Price</button>
+        <a class="button deal" target="_blank" rel="noopener" href="https://www.tesco.com/groceries/en-GB/zone/clubcard-prices">All Clubcard Prices</a>
+        <a class="button deal" target="_blank" rel="noopener" href="https://www.tesco.com/groceries/en-GB/promotions">All Tesco promotions</a>
+        <a class="button deal" target="_blank" rel="noopener" href="https://www.tesco.com/groceries/en-GB/search?query=Aldi%20Price%20Match">Aldi Price Match search</a>
+        <a class="button deal" target="_blank" rel="noopener" href="https://www.tesco.com/groceries/en-GB/search?query=Everyday%20Low%20Price">Everyday Low Price search</a>
       </div>
       <div class="warn small">
-        Tesco does not expose a clean public API here. The app reads Tesco deal/category pages and lists what it can collect.
+        Tesco appears not to provide stable public pages/API for “all Aldi Price Match” and “all Everyday Low Price”. The reliable fallback is opening Tesco directly.
       </div>
     </div>
   </div>
 
   <div class="card">
     <strong>Results</strong>
-    <div id="status" class="muted small" style="margin-top:8px;">No search yet.</div>
-    <div id="results"></div>
+    <div id="results" class="muted small" style="margin-top:8px;">No list parsed yet.</div>
   </div>
 </div>
 
 <script>
-function cleanLines(raw){ return raw.split(/[\n,]+/).map(s => s.trim()).filter(Boolean); }
-function tescoUrl(q){ return "https://www.tesco.com/groceries/en-GB/search?query=" + encodeURIComponent(q); }
 function esc(s){ return String(s || "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+function cleanItem(input) {
+  let s = String(input || "").trim();
+  s = s.replace(/^[-*•\s]+/, "");
+  s = s.replace(/^\d+[\).]\s+/, "");
+  s = s.replace(/^\[[ xX]\]\s*/, "");
+  s = s.replace(/^\d+\s*x\s+/i, "");
+  s = s.replace(/^\d+x\s*/i, "");
+  s = s.replace(/^\d+(\.\d+)?\s*(kg|g|ml|l|litre|litres|pack|packs|pcs|pieces|tin|tins|can|cans|bottle|bottles)\s+/i, "");
+  s = s.replace(/\s+\d+(\.\d+)?\s*(kg|g|ml|l|litre|litres|pack|packs|pcs|pieces|tin|tins|can|cans|bottle|bottles)$/i, "");
+  s = s.replace(/\s+[-–—]\s+.*$/, "");
+  s = s.replace(/\s+\(.*?\)\s*$/, "");
+  return s.replace(/\s+/g, " ").trim();
+}
+function items(){
+  const seen = new Set();
+  return document.getElementById("list").value
+    .split(/[\n,]+/)
+    .map(cleanItem)
+    .filter(Boolean)
+    .filter(x => {
+      const k = x.toLowerCase();
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+}
+function tescoUrl(q){ return "https://www.tesco.com/groceries/en-GB/search?query=" + encodeURIComponent(q); }
 
-function renderRows(rows, sourceUrl){
-  let html = sourceUrl ? `<p class="small"><a href="${sourceUrl}" target="_blank" rel="noopener">Open Tesco source page</a></p>` : "";
-  if (!rows.length) return html + "<p>No products found.</p>";
-  html += `<table><thead><tr><th>Product</th><th>Price</th><th>Badge / offer</th><th>Open</th></tr></thead><tbody>`;
-  for (const p of rows) {
-    html += `<tr>
-      <td>${esc(p.title)}</td>
-      <td class="price">${esc(p.priceText || "")}</td>
-      <td>${(p.offers || []).map(o => `<span class="badge">${esc(o)}</span>`).join("")}</td>
-      <td><a href="${esc(p.url)}" target="_blank" rel="noopener">Open</a></td>
-    </tr>`;
+document.getElementById("buildLinks").onclick = () => {
+  const rows = items();
+  const div = document.getElementById("results");
+  if (!rows.length) { div.innerHTML = "No valid items."; return; }
+
+  let html = `<table><thead><tr><th>Item</th><th>Tesco</th></tr></thead><tbody>`;
+  for (const item of rows) {
+    html += `<tr><td>${esc(item)}</td><td><a target="_blank" rel="noopener" href="${tescoUrl(item)}">Open Tesco search</a></td></tr>`;
   }
   html += `</tbody></table>`;
-  return html;
-}
+  div.innerHTML = html;
+};
 
-document.getElementById("openAllBtn").onclick = () => {
-  cleanLines(document.getElementById("list").value).forEach((item, i) => {
+document.getElementById("openAll").onclick = () => {
+  items().forEach((item, i) => {
     setTimeout(() => window.open(tescoUrl(item), "_blank", "noopener"), i * 300);
   });
 };
-
-document.getElementById("findBtn").onclick = async () => {
-  const list = document.getElementById("list").value;
-  const status = document.getElementById("status");
-  const results = document.getElementById("results");
-  status.textContent = "Searching your shopping list…";
-  results.innerHTML = "";
-
-  const r = await fetch("/api/search", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({list})
-  });
-  const data = await r.json();
-  if (!r.ok) { status.textContent = data.error || "Search failed"; return; }
-
-  status.textContent = `Checked ${data.items.length} shopping-list item(s).`;
-  let html = "";
-  for (const row of data.items) {
-    html += `<h3>${esc(row.item)} <span class="small muted">— ${esc(row.status)}</span></h3>`;
-    html += `<p class="small"><a href="${row.searchUrl}" target="_blank" rel="noopener">Tesco search</a></p>`;
-    html += renderRows(row.products || []);
-  }
-  results.innerHTML = html || "No results.";
-};
-
-document.querySelectorAll("[data-deal]").forEach(btn => {
-  btn.onclick = async () => {
-    const type = btn.dataset.deal;
-    const status = document.getElementById("status");
-    const results = document.getElementById("results");
-    const label = btn.textContent;
-    status.textContent = `Loading ${label}…`;
-    results.innerHTML = "";
-
-    const r = await fetch(`/api/deals?type=${encodeURIComponent(type)}`);
-    const data = await r.json();
-    if (!r.ok) { status.textContent = data.error || "Deal load failed"; return; }
-
-    status.textContent = `${label}: found ${data.products.length} product(s). ${data.note || ""}`;
-    results.innerHTML = `<h2>${esc(label)}</h2>` + renderRows(data.products, data.sourceUrl);
-  };
-});
 </script>
 </body>
 </html>

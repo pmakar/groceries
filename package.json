@@ -1,6 +1,6 @@
 {
-  "name": "tesco-shopping-offer-finder",
-  "version": "2.0.0",
+  "name": "tesco-deals-links-app",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "vercel dev",
