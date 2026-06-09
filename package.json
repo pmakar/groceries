@@ -1,6 +1,6 @@
 {
-  "name": "tesco-deal-radar-static",
-  "version": "7.0.0",
+  "name": "deal-radar-static",
+  "version": "8.0.0",
   "private": true,
   "scripts": {
     "dev": "vercel dev",

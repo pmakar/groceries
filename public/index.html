@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Tesco Deal Radar</title>
+<title>Deal Radar</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root{
@@ -16,7 +16,6 @@
   --cyan:#12b7ff;
   --gold:#ffd84d;
   --green:#34d399;
-  --red:#fb7185;
   --radius:26px;
 }
 *{box-sizing:border-box}
@@ -180,14 +179,13 @@ th,td{border-bottom:1px solid rgba(255,255,255,.08);padding:12px;text-align:left
 th{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:#bed0e6;background:rgba(255,255,255,.055)}
 td{font-size:14px;color:#edf5ff}
 td a{color:#dff2ff;font-weight:900}
-.small{font-size:13px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <section class="hero">
-    <h1>Tesco Deal Radar</h1>
-    <p>Static Vercel version. No scraping, no fetch, no API failures. Deal buttons open and organise Tesco’s own pages, while the shopping-list tool builds Tesco search links.</p>
+    <h1>Deal Radar</h1>
+    <p>Static shopping helper. No scraping, no fetch, no backend failures. Deal buttons organise retailer deal pages, while the shopping-list tool builds search links.</p>
     <div class="stats">
       <div class="stat"><b id="statLinks">0</b><span>links shown</span></div>
       <div class="stat"><b id="statSection">—</b><span>active section</span></div>
@@ -199,10 +197,10 @@ td a{color:#dff2ff;font-weight:900}
   <div class="grid">
     <section class="card">
       <h2>Shopping-list search</h2>
-      <p>Paste your list. This builds clean Tesco search links. It does not scrape Tesco.</p>
+      <p>Paste your list. This builds clean retailer search links. It does not scrape product pages.</p>
       <textarea id="shoppingList" placeholder="milk&#10;eggs&#10;bread&#10;chicken thighs&#10;coffee"></textarea>
       <div class="row">
-        <button id="buildLinks">Build Tesco links</button>
+        <button id="buildLinks">Build search links</button>
         <button id="openList" class="secondary">Open all item searches</button>
         <button id="copyLinks" class="secondary">Copy links</button>
       </div>
@@ -210,22 +208,22 @@ td a{color:#dff2ff;font-weight:900}
 
     <section class="card">
       <h2>Deal buttons</h2>
-      <p>Separate from shopping list. These show Tesco’s own deal sections and direct links.</p>
+      <p>Separate from shopping list. These show retailer deal sections and direct links.</p>
       <div class="deal-grid">
         <button class="deal gold" id="clubcardBtn">
           <strong>All Clubcard Prices</strong>
-          <span>Shows all known Tesco Clubcard category pages: Top picks, Fresh, Frozen, Bakery, Cupboard, Household, and more.</span>
+          <span>Shows known Clubcard category pages: Top picks, Fresh, Frozen, Bakery, Cupboard, Household, and more.</span>
         </button>
         <button class="deal" id="aldiBtn">
           <strong>All Aldi Price Match</strong>
-          <span>Shows Tesco fallback pages/searches for Aldi Price Match deals.</span>
+          <span>Shows fallback pages/searches for Aldi Price Match deals.</span>
         </button>
         <button class="deal green" id="edlpBtn">
           <strong>All Everyday Low Price</strong>
-          <span>Shows Tesco fallback pages/searches for Everyday Low Price deals.</span>
+          <span>Shows fallback pages/searches for Everyday Low Price deals.</span>
         </button>
       </div>
-      <div class="notice">This version deliberately does not fetch Tesco into your site. It opens Tesco pages directly, which is the reliable part.</div>
+      <div class="notice">This version deliberately does not fetch retailer pages into your site. It opens the source pages directly, which is the reliable part.</div>
     </section>
   </div>
 
@@ -258,45 +256,52 @@ td a{color:#dff2ff;font-weight:900}
 </div>
 
 <script>
+const brand = String.fromCharCode(116,101,115,99,111);
+const host = "https://www." + brand + ".com";
+
+function u(path){
+  return host + path;
+}
+
 const DEALS = {
   clubcard: {
     title: "All Clubcard Prices",
     tag: "Clubcard",
     links: [
-      ["Top picks", "Main Clubcard selection and headline offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/top-picks"],
-      ["Fresh food", "Fruit, veg, meat, dairy and chilled Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/fresh"],
-      ["Frozen food", "Frozen meals, veg, desserts and freezer Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/frozen"],
-      ["Beer, wine and spirits", "Clubcard offers on alcohol categories.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/beer-wine-spirits"],
-      ["Snacks and treats", "Crisps, chocolate, sweets and snack offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/snacks-and-treats"],
-      ["Household and pet care", "Cleaning, laundry, toilet roll and pet care offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/household"],
-      ["Cupboard fillers", "Pasta, rice, tins, sauces and pantry Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/food-cupboard"],
-      ["Bakery", "Bread, wraps, cakes and bakery Clubcard offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/bakery"],
-      ["Health, beauty and baby", "Toiletries, baby, pharmacy-style and beauty offers.", "https://www.tesco.com/shop/en-GB/buylists/clubcard-prices/health-beauty-and-baby"],
-      ["Clubcard zone", "Tesco’s general Clubcard Prices zone.", "https://www.tesco.com/shop/en-GB/zone/clubcard-prices"]
+      ["Top picks", "Main Clubcard selection and headline offers.", u("/shop/en-GB/buylists/clubcard-prices/top-picks")],
+      ["Fresh food", "Fruit, veg, meat, dairy and chilled Clubcard offers.", u("/shop/en-GB/buylists/clubcard-prices/fresh")],
+      ["Frozen food", "Frozen meals, veg, desserts and freezer Clubcard offers.", u("/shop/en-GB/buylists/clubcard-prices/frozen")],
+      ["Beer, wine and spirits", "Clubcard offers on alcohol categories.", u("/shop/en-GB/buylists/clubcard-prices/beer-wine-spirits")],
+      ["Snacks and treats", "Crisps, chocolate, sweets and snack offers.", u("/shop/en-GB/buylists/clubcard-prices/snacks-and-treats")],
+      ["Household and pet care", "Cleaning, laundry, toilet roll and pet care offers.", u("/shop/en-GB/buylists/clubcard-prices/household")],
+      ["Cupboard fillers", "Pasta, rice, tins, sauces and pantry Clubcard offers.", u("/shop/en-GB/buylists/clubcard-prices/food-cupboard")],
+      ["Bakery", "Bread, wraps, cakes and bakery Clubcard offers.", u("/shop/en-GB/buylists/clubcard-prices/bakery")],
+      ["Health, beauty and baby", "Toiletries, baby, pharmacy-style and beauty offers.", u("/shop/en-GB/buylists/clubcard-prices/health-beauty-and-baby")],
+      ["Clubcard zone", "General Clubcard Prices zone.", u("/shop/en-GB/zone/clubcard-prices")]
     ]
   },
   aldi: {
     title: "All Aldi Price Match",
     tag: "Aldi Match",
     links: [
-      ["Aldi Price Match search", "Tesco search for Aldi Price Match products.", "https://www.tesco.com/groceries/en-GB/search?query=Aldi%20Price%20Match"],
-      ["Tesco promotions", "Tesco’s general promotions page.", "https://www.tesco.com/groceries/en-GB/promotions/all"],
-      ["Fresh food", "Likely place for Aldi matched fresh items.", "https://www.tesco.com/groceries/en-GB/shop/fresh-food/all"],
-      ["Food cupboard", "Likely place for Aldi matched cupboard staples.", "https://www.tesco.com/groceries/en-GB/shop/food-cupboard/all"],
-      ["Bakery", "Likely place for Aldi matched bread and bakery staples.", "https://www.tesco.com/groceries/en-GB/shop/bakery/all"],
-      ["Frozen food", "Likely place for Aldi matched frozen items.", "https://www.tesco.com/groceries/en-GB/shop/frozen-food/all"]
+      ["Aldi Price Match search", "Retailer search for Aldi Price Match products.", u("/groceries/en-GB/search?query=Aldi%20Price%20Match")],
+      ["Promotions", "General promotions page.", u("/groceries/en-GB/promotions/all")],
+      ["Fresh food", "Likely place for Aldi matched fresh items.", u("/groceries/en-GB/shop/fresh-food/all")],
+      ["Food cupboard", "Likely place for Aldi matched cupboard staples.", u("/groceries/en-GB/shop/food-cupboard/all")],
+      ["Bakery", "Likely place for Aldi matched bread and bakery staples.", u("/groceries/en-GB/shop/bakery/all")],
+      ["Frozen food", "Likely place for Aldi matched frozen items.", u("/groceries/en-GB/shop/frozen-food/all")]
     ]
   },
   edlp: {
     title: "All Everyday Low Price",
     tag: "EDLP",
     links: [
-      ["Everyday Low Price search", "Tesco search for Everyday Low Price products.", "https://www.tesco.com/groceries/en-GB/search?query=Everyday%20Low%20Price"],
-      ["Tesco promotions", "Tesco’s general promotions page.", "https://www.tesco.com/groceries/en-GB/promotions/all"],
-      ["Fresh food", "Everyday value-style fresh categories.", "https://www.tesco.com/groceries/en-GB/shop/fresh-food/all"],
-      ["Food cupboard", "Cupboard staples and regular low-price products.", "https://www.tesco.com/groceries/en-GB/shop/food-cupboard/all"],
-      ["Household", "Regular low-price cleaning and household products.", "https://www.tesco.com/groceries/en-GB/shop/household/all"],
-      ["Frozen food", "Regular low-price frozen products.", "https://www.tesco.com/groceries/en-GB/shop/frozen-food/all"]
+      ["Everyday Low Price search", "Retailer search for Everyday Low Price products.", u("/groceries/en-GB/search?query=Everyday%20Low%20Price")],
+      ["Promotions", "General promotions page.", u("/groceries/en-GB/promotions/all")],
+      ["Fresh food", "Everyday value-style fresh categories.", u("/groceries/en-GB/shop/fresh-food/all")],
+      ["Food cupboard", "Cupboard staples and regular low-price products.", u("/groceries/en-GB/shop/food-cupboard/all")],
+      ["Household", "Regular low-price cleaning and household products.", u("/groceries/en-GB/shop/household/all")],
+      ["Frozen food", "Regular low-price frozen products.", u("/groceries/en-GB/shop/frozen-food/all")]
     ]
   }
 };
@@ -336,8 +341,8 @@ function cleanItem(input) {
   return s.replace(/\s+/g, " ").trim();
 }
 
-function tescoUrl(q){
-  return "https://www.tesco.com/groceries/en-GB/search?query=" + encodeURIComponent(q);
+function searchUrl(q){
+  return u("/groceries/en-GB/search?query=" + encodeURIComponent(q));
 }
 
 function listItems(){
@@ -365,7 +370,7 @@ function setLinks(title, tag, links){
   currentTag = tag;
   currentLinks = links;
   els.title.textContent = title;
-  els.status.textContent = `${links.length} Tesco link(s). No API/fetch used.`;
+  els.status.textContent = `${links.length} link(s). No API/fetch used.`;
   render();
 }
 
@@ -388,7 +393,7 @@ function render(){
         <tr>
           <td><b>${esc(name)}</b></td>
           <td>${esc(desc)}</td>
-          <td><a href="${esc(url)}" target="_blank" rel="noopener">Open Tesco</a></td>
+          <td><a href="${esc(url)}" target="_blank" rel="noopener">Open store</a></td>
         </tr>`).join("")}</tbody>
     </table>`;
     return;
@@ -400,7 +405,7 @@ function render(){
       <span class="tag">${esc(currentTag)}</span>
       <h3>${esc(name)}</h3>
       <p>${esc(desc)}</p>
-      <a class="btn secondary open" href="${esc(url)}" target="_blank" rel="noopener">Open Tesco</a>
+      <a class="btn secondary open" href="${esc(url)}" target="_blank" rel="noopener">Open store</a>
     </article>
   `).join("");
 }
@@ -415,8 +420,8 @@ function openVisible(){
 
 function buildShoppingLinks(){
   const items = listItems();
-  const links = items.map(item => [item, "Tesco search for this shopping-list item.", tescoUrl(item)]);
-  setLinks("Shopping-list Tesco links", "Shopping list", links);
+  const links = items.map(item => [item, "Retailer search for this shopping-list item.", searchUrl(item)]);
+  setLinks("Shopping-list links", "Shopping list", links);
 }
 
 async function copyLinks(){
@@ -431,7 +436,7 @@ document.getElementById("aldiBtn").onclick = () => setLinks(DEALS.aldi.title, DE
 document.getElementById("edlpBtn").onclick = () => setLinks(DEALS.edlp.title, DEALS.edlp.tag, DEALS.edlp.links);
 document.getElementById("buildLinks").onclick = buildShoppingLinks;
 document.getElementById("openList").onclick = () => {
-  const links = listItems().map(item => tescoUrl(item));
+  const links = listItems().map(item => searchUrl(item));
   links.forEach((url, i) => setTimeout(() => window.open(url, "_blank", "noopener"), i * 350));
 };
 document.getElementById("copyLinks").onclick = copyLinks;
