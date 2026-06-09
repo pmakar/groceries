@@ -1,10 +1,15 @@
-# Tesco Shopping List Offer Finder
+# Tesco Deals + Shopping List Finder
 
-Paste a shopping list and find Tesco results with these badges:
+Two separate modes:
 
-- Aldi Price Match
-- Clubcard Price
-- Everyday Low Price
+1. **Shopping-list search**  
+   Paste your shopping list and search those items on Tesco.
+
+2. **Browse ALL Tesco deal sections**  
+   These buttons are unrelated to the shopping list:
+   - All Aldi Price Match
+   - All Clubcard Prices
+   - All Everyday Low Price
 
 ## Local test
 
@@ -21,15 +26,14 @@ http://localhost:3000
 
 ## Deploy with GitHub + Vercel
 
-1. Create a new GitHub repository.
-2. Upload these files.
-3. Go to Vercel.
-4. Add New Project.
-5. Import the GitHub repo.
-6. Deploy.
+```bash
+git init
+git add .
+git commit -m "Initial Tesco deals app"
+```
 
-No build command is needed.
+Create a GitHub repo, push it, then import that repo in Vercel.
 
-## Notes
+## Important limitation
 
-This reads Tesco search pages server-side and tries to detect offer badges. Tesco can change markup or block automated reads, so the app always keeps a normal Tesco search link as fallback.
+Tesco does not provide a clean public API for all grocery deal badges. This app reads Tesco pages server-side and extracts products it can see. Clubcard has a dedicated Tesco zone page; Aldi Price Match and Everyday Low Price are gathered from promotions/category pages.
