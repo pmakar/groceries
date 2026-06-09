@@ -1,7 +1,8 @@
 {
-  "name": "tesco-deals-links-app",
-  "version": "3.0.0",
+  "name": "tesco-deal-radar",
+  "version": "4.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vercel dev",
     "start": "vercel dev"
